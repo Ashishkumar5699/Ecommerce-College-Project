@@ -1,2 +1,4 @@
-# Ecommerce-College-Project
-College Project on Python Django
+# CollegeProject
+
+
+For Semester Project COllege

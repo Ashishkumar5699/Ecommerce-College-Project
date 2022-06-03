@@ -1,0 +1,2 @@
+#to create a project
+python -m django startproject project_name
