@@ -1,6 +1,9 @@
 from multiprocessing import context
+import django
 from django.shortcuts import render, HttpResponse, redirect
 from datetime import datetime
+
+from django.test import RequestFactory
 from home.models import Contact
 from django.contrib import messages
 from django.contrib.auth import authenticate, logout, login
@@ -50,33 +53,36 @@ def checkout(request):
 def services(request):
     return render(request, "services.html")
 
-def login(request):
+def loginUser(request):
+    if request.method == "POST":
+        user_name = request.POST.get("usernameEntry")
+        pass_word = request.POST.get("passwordEntry")
+        user = authenticate(request, username=user_name, password=pass_word)
+        if user is not None:
+            # django.contrib.auth.
+            login(request, user)
+            return redirect("http://127.0.0.1:8000/")
+        else:
+            return HttpResponse("something wents wrong")
+
     return render(request, "login.html")
 
-
-def logincheck(request):
-   # return render(request,"submit_contact.html")
-    if request.method == "POST":
-        user_name = request.POST.get("username")
-        pass_word = request.POST.get("password")
-        
-        user = authenticate(request, username=user_name, password=pass_word)
-        print("user1 -->", user)
-        if user is not None:
-            print("user-->",user)
-            login(user)
-            return render(request, "index.html")
-        else:
-            return render(request,"http://127.0.0.1:8000/")
-    else:
-            return render(request, "order.html")
                 
 def logoutUser(request):
     logout(request)
     return redirect("/login")
 
 def CreateNewAccount(request):
-    return render(request, "CreateNewAccount.html")
+    if request.method == "POST":
+        NameEntry = request.POST.get("NameEntry")
+        emailEntry = request.POST.get("emailEntry")
+        phoneEntry = request.POST.get("phoneEntry")
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+
+        
+
+        return render(request, "CreateNewAccount.html")
 
 def tracker(request):
     return render(request, "tracker.html")
